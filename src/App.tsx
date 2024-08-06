@@ -74,10 +74,10 @@ const App: React.FC = () => {
         setTimerState(TimerState.RUNNING);
     };
 
-    const handleTestStart = () => {
-        setSeconds(2);
-        setTimerState(TimerState.RUNNING);
-    };
+    // const handleTestStart = () => {
+    //     setSeconds(2);
+    //     setTimerState(TimerState.RUNNING);
+    // };
 
     const handleGoalInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setGoalInput(event.target.value);
