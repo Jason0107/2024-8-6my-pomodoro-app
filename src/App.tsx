@@ -16,6 +16,7 @@ const App: React.FC = () => {
     const [seconds, setSeconds] = useState<number>(1500); // 25 minutes
     const [timerState, setTimerState] = useState<TimerState>(TimerState.ENDED);
     const [history, setHistory] = useState<HistoryRecord[]>([]);
+    const [alertTriggered, setAlertTriggered] = useState<boolean>(false);
 
     useEffect(() => {
         // Load history from LocalStorage
@@ -30,16 +31,18 @@ const App: React.FC = () => {
             interval = setInterval(() => {
                 setSeconds(prevSeconds => prevSeconds - 1);
             }, 1000);
-        } else if (seconds === 0) {
+            setAlertTriggered(false); // Reset alert trigger when timer is running
+        } else if (seconds === 0 && !alertTriggered) {
             addHistory();
             setTimerState(TimerState.ENDED);
             alert("Time's up!");
+            setAlertTriggered(true); // Ensure alert only triggers once
         }
 
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [timerState, seconds]);
+    }, [timerState, seconds,alertTriggered]);
 
     const formatTime = (seconds: number): string => {
         const minutes = Math.floor(seconds / 60);
@@ -66,6 +69,11 @@ const App: React.FC = () => {
         setTimerState(TimerState.RUNNING);
     };
 
+    const handleTestStart = () => {
+        setSeconds(2);
+        setTimerState(TimerState.RUNNING);
+    };
+
     return (
         <div className="app">
             <div className="time">
@@ -75,6 +83,7 @@ const App: React.FC = () => {
                 <button onClick={handleStart}>Start</button>
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
                 <button onClick={() => { setSeconds(1500); setTimerState(TimerState.ENDED); }}>Reset</button>
+                <button onClick={handleTestStart}>Test</button>
             </div>
             <div className="history">
                 <h2>History</h2>
