@@ -69,10 +69,18 @@ button:focus-visible {
   margin: 20px 0;
 }
 
+.progress-container {
+  width: 100%;
+  border: 2px solid #646cff; /* Add this line for border */
+  border-radius: 10px; /* Adjust border radius */
+  padding: 2px; /* Optional: Add padding to create space between border and progress bar */
+}
+
 .progress-bar {
   height: 20px;
   background-color: #646cff;
-  border-radius: 10px;
+  border-radius: 8px; /* Adjust border radius to match progress container */
+  width: 0; /* Default width, will be set dynamically */
 }
 
 .set-goal {

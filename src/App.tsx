@@ -21,9 +21,12 @@ const App: React.FC = () => {
     const [goalInput, setGoalInput] = useState<string>("");
 
     useEffect(() => {
-        // Load history from LocalStorage
+        // Load history and daily goal from LocalStorage
         const savedHistory = JSON.parse(localStorage.getItem('pomodoroHistory') || '[]');
         setHistory(savedHistory);
+
+        const savedDailyGoal = parseInt(localStorage.getItem('dailyGoal') || '0');
+        setDailyGoal(savedDailyGoal);
     }, []);
 
     useEffect(() => {
@@ -81,7 +84,9 @@ const App: React.FC = () => {
     };
 
     const handleSetGoal = () => {
-        setDailyGoal(parseInt(goalInput) || 0);
+        const goal = parseInt(goalInput) || 0;
+        setDailyGoal(goal);
+        localStorage.setItem('dailyGoal', goal.toString());
     };
 
     const completedCount = history.length;
@@ -99,11 +104,13 @@ const App: React.FC = () => {
                 <button onClick={handleStart}>Start</button>
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
                 <button onClick={() => { setSeconds(1500); setTimerState(TimerState.ENDED); }}>Reset</button>
-                <button onClick={handleTestStart}>Test</button>
+                {/*<button onClick={handleTestStart}>Test</button>*/}
             </div>
             <div className="progress">
                 <h2>Today's Progress</h2>
-                <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+                <div className="progress-container">
+                    <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+                </div>
                 <p>{completedCount} / {dailyGoal}</p>
             </div>
             <div className="set-goal">
