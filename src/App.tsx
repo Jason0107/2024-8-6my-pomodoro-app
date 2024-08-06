@@ -17,6 +17,8 @@ const App: React.FC = () => {
     const [timerState, setTimerState] = useState<TimerState>(TimerState.ENDED);
     const [history, setHistory] = useState<HistoryRecord[]>([]);
     const [alertTriggered, setAlertTriggered] = useState<boolean>(false);
+    const [dailyGoal, setDailyGoal] = useState<number>(0);
+    const [goalInput, setGoalInput] = useState<string>("");
 
     useEffect(() => {
         // Load history from LocalStorage
@@ -42,7 +44,7 @@ const App: React.FC = () => {
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [timerState, seconds,alertTriggered]);
+    }, [timerState, seconds, alertTriggered]);
 
     const formatTime = (seconds: number): string => {
         const minutes = Math.floor(seconds / 60);
@@ -74,16 +76,44 @@ const App: React.FC = () => {
         setTimerState(TimerState.RUNNING);
     };
 
+    const handleGoalInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setGoalInput(event.target.value);
+    };
+
+    const handleSetGoal = () => {
+        setDailyGoal(parseInt(goalInput) || 0);
+    };
+
+    const completedCount = history.length;
+    const progressPercentage = dailyGoal ? (completedCount / dailyGoal) * 100 : 0;
+
     return (
         <div className="app">
             <div className="time">
                 {formatTime(seconds)}
+            </div>
+            <div className="state">
+                Current State: {timerState}
             </div>
             <div className="buttons">
                 <button onClick={handleStart}>Start</button>
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
                 <button onClick={() => { setSeconds(1500); setTimerState(TimerState.ENDED); }}>Reset</button>
                 <button onClick={handleTestStart}>Test</button>
+            </div>
+            <div className="progress">
+                <h2>Today's Progress</h2>
+                <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+                <p>{completedCount} / {dailyGoal}</p>
+            </div>
+            <div className="set-goal">
+                <input
+                    type="number"
+                    value={goalInput}
+                    onChange={handleGoalInputChange}
+                    placeholder="Set your daily goal"
+                />
+                <button onClick={handleSetGoal}>Set Goal</button>
             </div>
             <div className="history">
                 <h2>History</h2>

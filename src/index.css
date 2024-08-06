@@ -63,6 +63,35 @@ button:focus-visible {
   text-align: center; /* Add this line */
 }
 
+.progress {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #646cff;
+  border-radius: 10px;
+}
+
+.set-goal {
+  display: flex;
+  align-items: center;
+}
+
+.set-goal input {
+  padding: 10px;
+  margin: 10px 10px 10px 0;
+  font-size: 1em;
+  width: 100px;
+}
+
+.set-goal button {
+  padding: 10px;
+  font-size: 1em;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
