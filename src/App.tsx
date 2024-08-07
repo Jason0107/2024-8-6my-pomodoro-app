@@ -22,6 +22,7 @@ const App: React.FC = () => {
     const [pomodoroDuration, setPomodoroDuration] = useState<number>(1500);
     const [durationInput, setDurationInput] = useState<string>("25");
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [isHistoryVisible, setIsHistoryVisible] = useState<boolean>(false);
     const recordsPerPage = 5;
 
     useEffect(() => {
@@ -121,6 +122,10 @@ const App: React.FC = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
+    const toggleHistoryVisibility = () => {
+        setIsHistoryVisible(!isHistoryVisible);
+    };
+
     return (
         <div className="app">
             <div className="time">
@@ -161,19 +166,25 @@ const App: React.FC = () => {
                 <button onClick={handleSetDuration}>设置时长</button>
             </div>
             <div className="history">
-                <h2>历史记录</h2>
-                <ul>
-                    {currentRecords.map((record, index) => (
-                        <li key={index}>
-                            {record.time} - {formatTime(record.duration)}
-                            <button onClick={() => deleteHistory(index)}>删除</button>
-                        </li>
-                    ))}
-                </ul>
-                <div className="pagination">
-                    <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
-                    <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
-                </div>
+                <h2 onClick={toggleHistoryVisibility} style={{ cursor: 'pointer' }}>
+                    历史记录
+                </h2>
+                {isHistoryVisible && (
+                    <>
+                        <ul>
+                            {currentRecords.map((record, index) => (
+                                <li key={index}>
+                                    {record.time} - {formatTime(record.duration)}
+                                    <button onClick={() => deleteHistory(index)}>删除</button>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="pagination">
+                            <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
+                            <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
