@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import {HistoryRecord,TimerState} from '../../types/history.d.ts'
 import './index.css'
-
-
-
 
 const TimerPage: React.FC = () => {
     const [seconds, setSeconds] = useState<number>(1500); // 25 minutes
@@ -14,13 +12,6 @@ const TimerPage: React.FC = () => {
     const [goalInput, setGoalInput] = useState<string>("");
     const [pomodoroDuration, setPomodoroDuration] = useState<number>(1500);
     const [durationInput, setDurationInput] = useState<string>("25");
-
-    enum TimerState {
-        RUNNING = 'running',
-        PAUSED = 'paused',
-        ENDED = 'ended',
-    }
-
 
     useEffect(() => {
         // 从本地存储加载历史记录和每日目标

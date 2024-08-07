@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import {HistoryRecord} from '../../types/history'
 import './index.css'
 
 const Index: React.FC = () => {
     const [history, setHistory] = useState<HistoryRecord[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const recordsPerPage = 5;
-
-    interface HistoryRecord {
-        time: string;
-        duration: number;
-    }
 
 
     useEffect(() => {
