@@ -25,7 +25,7 @@ const App: React.FC = () => {
     const recordsPerPage = 5;
 
     useEffect(() => {
-        // Load history and daily goal from LocalStorage
+        // 从本地存储加载历史记录和每日目标
         const savedHistory = JSON.parse(localStorage.getItem('pomodoroHistory') || '[]');
         setHistory(savedHistory);
 
@@ -40,12 +40,12 @@ const App: React.FC = () => {
             interval = setInterval(() => {
                 setSeconds(prevSeconds => prevSeconds - 1);
             }, 1000);
-            setAlertTriggered(false); // Reset alert trigger when timer is running
+            setAlertTriggered(false); // 计时器运行时重置警报触发器
         } else if (seconds === 0 && !alertTriggered) {
             addHistory();
             setTimerState(TimerState.ENDED);
-            alert("Time's up!");
-            setAlertTriggered(true); // Ensure alert only triggers once
+            alert("时间到！");
+            setAlertTriggered(true); // 确保警报只触发一次
         }
 
         return () => {
@@ -127,16 +127,16 @@ const App: React.FC = () => {
                 {formatTime(seconds)}
             </div>
             <div className="state">
-                Current State: {timerState}
+                当前状态: {timerState === TimerState.RUNNING ? "运行中" : timerState === TimerState.PAUSED ? "暂停" : "结束"}
             </div>
             <div className="buttons">
-                <button onClick={handleStart}>Start</button>
-                <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
-                <button onClick={() => { setSeconds(pomodoroDuration); setTimerState(TimerState.ENDED); }}>Reset</button>
-                <button onClick={handleTestStart}>Test</button>
+                <button onClick={handleStart}>开始</button>
+                <button onClick={() => setTimerState(TimerState.PAUSED)}>暂停</button>
+                <button onClick={() => { setSeconds(pomodoroDuration); setTimerState(TimerState.ENDED); }}>重置</button>
+                <button onClick={handleTestStart}>测试</button>
             </div>
             <div className="progress">
-                <h2><h2>今日目标完成情况</h2></h2>
+                <h2>今日目标完成情况</h2>
                 <div className="progress-container">
                     <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
@@ -147,32 +147,32 @@ const App: React.FC = () => {
                     type="number"
                     value={goalInput}
                     onChange={handleGoalInputChange}
-                    placeholder="Set your daily goal"
+                    placeholder="设置每日目标"
                 />
-                <button onClick={handleSetGoal}>Set Goal</button>
+                <button onClick={handleSetGoal}>设置目标</button>
             </div>
             <div className="set-duration">
                 <input
                     type="number"
                     value={durationInput}
                     onChange={handleDurationInputChange}
-                    placeholder="Set timer duration (minutes)"
+                    placeholder="设置番茄钟时长（分钟）"
                 />
-                <button onClick={handleSetDuration}>Set Duration</button>
+                <button onClick={handleSetDuration}>设置时长</button>
             </div>
             <div className="history">
-                <h2>History</h2>
+                <h2>历史记录</h2>
                 <ul>
                     {currentRecords.map((record, index) => (
                         <li key={index}>
                             {record.time} - {formatTime(record.duration)}
-                            <button onClick={() => deleteHistory(index)}>Delete</button>
+                            <button onClick={() => deleteHistory(index)}>删除</button>
                         </li>
                     ))}
                 </ul>
                 <div className="pagination">
-                    <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
-                    <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+                    <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
+                    <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
                 </div>
             </div>
         </div>
