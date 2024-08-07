@@ -5,27 +5,20 @@ import './index.css';
 
 interface TimerPageProps {
     onShowHistory: () => void;
+    history: HistoryRecord[];
+    setHistory: React.Dispatch<React.SetStateAction<HistoryRecord[]>>;
+    dailyGoal: number;
+    setDailyGoal: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
+const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory, history, setHistory, dailyGoal, setDailyGoal }) => {
     const [seconds, setSeconds] = useState<number>(1500); // 25 minutes
     const [timerState, setTimerState] = useState<TimerState>(TimerState.ENDED);
-    const [history, setHistory] = useState<HistoryRecord[]>([]);
     const [alertTriggered, setAlertTriggered] = useState<boolean>(false);
-    const [dailyGoal, setDailyGoal] = useState<number>(0);
     const [goalInput, setGoalInput] = useState<string>("");
     const [pomodoroDuration, setPomodoroDuration] = useState<number>(1500);
     const [durationInput, setDurationInput] = useState<string>("25");
     const [isSoundOn, setIsSoundOn] = useState<boolean>(true); // 控制提示音
-
-    useEffect(() => {
-        // 从本地存储加载历史记录和每日目标
-        const savedHistory = JSON.parse(localStorage.getItem('pomodoroHistory') || '[]');
-        setHistory(savedHistory);
-
-        const savedDailyGoal = parseInt(localStorage.getItem('dailyGoal') || '0');
-        setDailyGoal(savedDailyGoal);
-    }, []);
 
     useEffect(() => {
         let interval: ReturnType<typeof setInterval> | null = null;
