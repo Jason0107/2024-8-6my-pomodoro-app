@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {HistoryRecord,TimerState} from '../../types/history.ts'
-import './index.css'
+import React, { useEffect, useState } from "react";
+import { HistoryRecord, TimerState } from '../../types/history.ts';
+import './index.css';
 
-const TimerPage: React.FC = () => {
+interface TimerPageProps {
+    onShowHistory: () => void;
+}
+
+const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
     const [seconds, setSeconds] = useState<number>(1500); // 25 minutes
     const [timerState, setTimerState] = useState<TimerState>(TimerState.ENDED);
     const [history, setHistory] = useState<HistoryRecord[]>([]);
@@ -49,7 +52,7 @@ const TimerPage: React.FC = () => {
     };
 
     const addHistory = () => {
-        const newHistory = [...history, {time: new Date().toLocaleString(), duration: pomodoroDuration - seconds}];
+        const newHistory = [...history, { time: new Date().toLocaleString(), duration: pomodoroDuration - seconds }];
         setHistory(newHistory);
         localStorage.setItem('pomodoroHistory', JSON.stringify(newHistory));
     };
@@ -106,7 +109,7 @@ const TimerPage: React.FC = () => {
             <div className="progress">
                 <h2>今日目标完成情况</h2>
                 <div className="progress-container">
-                    <div className="progress-bar" style={{width: `${progressPercentage}%`}}></div>
+                    <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
                 <p>{completedCount} / {dailyGoal}</p>
             </div>
@@ -130,8 +133,9 @@ const TimerPage: React.FC = () => {
                 />
                 <button onClick={handleSetDuration}>设置时长</button>
             </div>
-            <Link to="/history" className="history-link">查看历史记录</Link>
+            <button className="history-link" onClick={onShowHistory}>查看历史记录</button>
         </div>
     );
 };
-export default TimerPage
+
+export default TimerPage;

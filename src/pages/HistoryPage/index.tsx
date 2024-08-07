@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {HistoryRecord} from '../../types/history.ts'
-import './index.css'
+import React, { useEffect, useState } from "react";
+import { HistoryRecord } from '../../types/history.ts';
+import './index.css';
 
-const Index: React.FC = () => {
+interface HistoryPageProps {
+    onClose: () => void;
+}
+
+const HistoryPage: React.FC<HistoryPageProps> = ({ onClose }) => {
     const [history, setHistory] = useState<HistoryRecord[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const recordsPerPage = 5;
-
 
     useEffect(() => {
         const savedHistory = JSON.parse(localStorage.getItem('pomodoroHistory') || '[]');
@@ -41,21 +43,24 @@ const Index: React.FC = () => {
 
     return (
         <div className="history-page">
-            <h2>历史记录</h2>
-            <ul>
-                {currentRecords.map((record, index) => (
-                    <li key={index}>
-                        {record.time} - {formatTime(record.duration)}
-                        <button onClick={() => deleteHistory(index)}>删除</button>
-                    </li>
-                ))}
-            </ul>
-            <div className="pagination">
-                <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
-                <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
+            <div className="history-modal">
+                <h2>历史记录</h2>
+                <ul>
+                    {currentRecords.map((record, index) => (
+                        <li key={index}>
+                            {record.time} - {formatTime(record.duration)}
+                            <button onClick={() => deleteHistory(index)}>删除</button>
+                        </li>
+                    ))}
+                </ul>
+                <div className="pagination">
+                    <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
+                    <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
+                </div>
+                <button className="close-button" onClick={onClose}>关闭</button>
             </div>
-            <Link to="/" className="back-link">返回计时器</Link>
         </div>
     );
 };
-export default Index
+
+export default HistoryPage;

@@ -1,46 +1,57 @@
+/* HistoryPage.css */
+
 .history-page {
-    text-align: center;
-    margin-top: 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.history-page h2 {
-    font-size: 24px;
+.history-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.history-page ul {
+.history-modal h2 {
+    margin-top: 0;
+}
+
+.history-modal ul {
     list-style: none;
     padding: 0;
 }
 
-.history-page li {
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-.back-link {
-    margin-top: 20px;
-    font-size: 1em;
-    color: #646cff;
-    text-decoration: none;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-.pagination {
+.history-modal li {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.history-modal .pagination {
+    display: flex;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
-.pagination button {
-    margin: 0 5px;
+.history-modal .close-button {
+    display: block;
+    margin: 20px auto 0;
     padding: 10px 20px;
-    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
-
