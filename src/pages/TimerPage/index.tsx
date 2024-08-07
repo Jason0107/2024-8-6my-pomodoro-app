@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HistoryRecord, TimerState } from '../../types/history.ts';
-import {BASE_PATH} from '../../config.js'
+import { BASE_PATH } from '../../config.js';
 import './index.css';
 
 interface TimerPageProps {
@@ -16,6 +16,7 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
     const [goalInput, setGoalInput] = useState<string>("");
     const [pomodoroDuration, setPomodoroDuration] = useState<number>(1500);
     const [durationInput, setDurationInput] = useState<string>("25");
+    const [isSoundOn, setIsSoundOn] = useState<boolean>(true); // 控制提示音
 
     useEffect(() => {
         // 从本地存储加载历史记录和每日目标
@@ -44,14 +45,16 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
             document.title = "番茄钟完成！";
 
             // 播放提示音
-            const audio = new Audio(`${BASE_PATH}/sound/111.mp3`);
-            audio.play();
+            if (isSoundOn) {
+                const audio = new Audio(`${BASE_PATH}/sound/111.mp3`);
+                audio.play();
+            }
         }
 
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [timerState, seconds, alertTriggered]);
+    }, [timerState, seconds, alertTriggered, isSoundOn]);
 
     const formatTime = (seconds: number): string => {
         const minutes = Math.floor(seconds / 60);
@@ -105,6 +108,10 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
         }
     };
 
+    const toggleSound = () => {
+        setIsSoundOn(!isSoundOn);
+    };
+
     const completedCount = history.length;
     const progressPercentage = dailyGoal ? (completedCount / dailyGoal) * 100 : 0;
 
@@ -118,7 +125,6 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
             </div>
             <div className="buttons">
                 <button onClick={handleStart}>开始</button>
-
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>暂停</button>
                 <button onClick={() => {
                     setSeconds(pomodoroDuration);
@@ -127,6 +133,9 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
                 </button>
                 <button onClick={handleTestStart}>测试</button>
             </div>
+            <button onClick={toggleSound}>
+                {isSoundOn ? '关闭提示音' : '打开提示音'}
+            </button>
             <div className="progress">
                 <h2>今日目标完成情况</h2>
                 <div className="progress-container">
