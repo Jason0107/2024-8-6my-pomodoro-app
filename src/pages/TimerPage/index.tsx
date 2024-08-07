@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HistoryRecord, TimerState } from '../../types/history.ts';
+import {BASE_PATH} from '../../config.js'
 import './index.css';
 
 interface TimerPageProps {
@@ -38,6 +39,13 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
             setTimerState(TimerState.ENDED);
             alert("时间到！");
             setAlertTriggered(true); // 确保警报只触发一次
+
+            // 更改标签页标题
+            document.title = "番茄钟完成！";
+
+            // 播放提示音
+            const audio = new Audio(`${BASE_PATH}/sound/111.mp3`);
+            audio.play();
         }
 
         return () => {
@@ -62,6 +70,17 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
             setSeconds(pomodoroDuration);
         }
         setTimerState(TimerState.RUNNING);
+        // 重置标签页标题
+        document.title = "番茄钟计时中...";
+    };
+
+    const handleTestStart = () => {
+        if (timerState === TimerState.ENDED) {
+            setSeconds(2);
+        }
+        setTimerState(TimerState.RUNNING);
+        // 重置标签页标题
+        document.title = "番茄钟计时中...";
     };
 
     const handleGoalInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,12 +118,14 @@ const TimerPage: React.FC<TimerPageProps> = ({ onShowHistory }) => {
             </div>
             <div className="buttons">
                 <button onClick={handleStart}>开始</button>
+
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>暂停</button>
                 <button onClick={() => {
                     setSeconds(pomodoroDuration);
                     setTimerState(TimerState.ENDED);
                 }}>重置
                 </button>
+                <button onClick={handleTestStart}>测试</button>
             </div>
             <div className="progress">
                 <h2>今日目标完成情况</h2>
