@@ -19,6 +19,10 @@ const App: React.FC = () => {
     const [alertTriggered, setAlertTriggered] = useState<boolean>(false);
     const [dailyGoal, setDailyGoal] = useState<number>(0);
     const [goalInput, setGoalInput] = useState<string>("");
+    const [pomodoroDuration, setPomodoroDuration] = useState<number>(1500);
+    const [durationInput, setDurationInput] = useState<string>("25");
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const recordsPerPage = 5;
 
     useEffect(() => {
         // Load history and daily goal from LocalStorage
@@ -56,7 +60,7 @@ const App: React.FC = () => {
     };
 
     const addHistory = () => {
-        const newHistory = [...history, { time: new Date().toLocaleString(), duration: 1500 - seconds }];
+        const newHistory = [...history, { time: new Date().toLocaleString(), duration: pomodoroDuration - seconds }];
         setHistory(newHistory);
         localStorage.setItem('pomodoroHistory', JSON.stringify(newHistory));
     };
@@ -69,7 +73,7 @@ const App: React.FC = () => {
 
     const handleStart = () => {
         if (timerState === TimerState.ENDED) {
-            setSeconds(1500);
+            setSeconds(pomodoroDuration);
         }
         setTimerState(TimerState.RUNNING);
     };
@@ -89,8 +93,33 @@ const App: React.FC = () => {
         localStorage.setItem('dailyGoal', goal.toString());
     };
 
+    const handleDurationInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDurationInput(event.target.value);
+    };
+
+    const handleSetDuration = () => {
+        const duration = parseInt(durationInput) * 60 || 1500;
+        setPomodoroDuration(duration);
+        if (timerState === TimerState.ENDED) {
+            setSeconds(duration);
+        }
+    };
+
     const completedCount = history.length;
     const progressPercentage = dailyGoal ? (completedCount / dailyGoal) * 100 : 0;
+
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = history.slice(indexOfFirstRecord, indexOfLastRecord);
+    const totalPages = Math.ceil(history.length / recordsPerPage);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
 
     return (
         <div className="app">
@@ -103,11 +132,11 @@ const App: React.FC = () => {
             <div className="buttons">
                 <button onClick={handleStart}>Start</button>
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
-                <button onClick={() => { setSeconds(1500); setTimerState(TimerState.ENDED); }}>Reset</button>
+                <button onClick={() => { setSeconds(pomodoroDuration); setTimerState(TimerState.ENDED); }}>Reset</button>
                 <button onClick={handleTestStart}>Test</button>
             </div>
             <div className="progress">
-                <h2>Today's Progress</h2>
+                <h2><h2>今日目标完成情况</h2></h2>
                 <div className="progress-container">
                     <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
@@ -122,16 +151,29 @@ const App: React.FC = () => {
                 />
                 <button onClick={handleSetGoal}>Set Goal</button>
             </div>
+            <div className="set-duration">
+                <input
+                    type="number"
+                    value={durationInput}
+                    onChange={handleDurationInputChange}
+                    placeholder="Set timer duration (minutes)"
+                />
+                <button onClick={handleSetDuration}>Set Duration</button>
+            </div>
             <div className="history">
                 <h2>History</h2>
                 <ul>
-                    {history.map((record, index) => (
+                    {currentRecords.map((record, index) => (
                         <li key={index}>
                             {record.time} - {formatTime(record.duration)}
                             <button onClick={() => deleteHistory(index)}>Delete</button>
                         </li>
                     ))}
                 </ul>
+                <div className="pagination">
+                    <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+                </div>
             </div>
         </div>
     );

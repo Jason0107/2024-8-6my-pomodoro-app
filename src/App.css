@@ -1,10 +1,10 @@
 .app {
   text-align: center;
   margin-top: 20%;
-  display: flex; /* Add this line */
-  flex-direction: column; /* Add this line */
-  align-items: center; /* Add this line */
-  justify-content: center; /* Add this line */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .time {
@@ -44,31 +44,48 @@
 
 .progress-container {
   width: 100%;
-  border: 2px solid #646cff; /* Add this line for border */
-  border-radius: 10px; /* Adjust border radius */
-  padding: 2px; /* Optional: Add padding to create space between border and progress bar */
+  border: 2px solid #646cff;
+  border-radius: 10px;
+  padding: 2px;
 }
 
 .progress-bar {
   height: 20px;
   background-color: #646cff;
-  border-radius: 8px; /* Adjust border radius to match progress container */
-  width: 0; /* Default width, will be set dynamically */
+  border-radius: 8px;
+  width: 0;
+  max-width: 100%; /* Ensure the progress bar doesn't exceed the container width */
 }
 
-.set-goal {
+.set-goal,
+.set-duration {
   display: flex;
   align-items: center;
+  margin-top: 20px;
 }
 
-.set-goal input {
+.set-goal input,
+.set-duration input {
   padding: 10px;
   margin: 10px 10px 10px 0;
   font-size: 1em;
   width: 100px;
 }
 
-.set-goal button {
+.set-goal button,
+.set-duration button {
   padding: 10px;
   font-size: 1em;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
