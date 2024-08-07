@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {HistoryRecord,TimerState} from '../../types/history.d.ts'
+import {HistoryRecord,TimerState} from '../../types/history.ts'
 import './index.css'
 
 const TimerPage: React.FC = () => {

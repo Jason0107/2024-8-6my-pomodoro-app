@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {HistoryRecord} from '../../types/history'
+import {HistoryRecord} from '../../types/history.ts'
 import './index.css'
 
 const Index: React.FC = () => {
