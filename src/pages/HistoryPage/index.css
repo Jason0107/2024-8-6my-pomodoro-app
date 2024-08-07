@@ -1,0 +1,33 @@
+.history-page {
+    text-align: center;
+    margin-top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.history-page h2 {
+    font-size: 24px;
+}
+
+.history-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.history-page li {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.back-link {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #646cff;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
