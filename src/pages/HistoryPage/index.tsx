@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Collapse} from "antd";
 import {Link} from "react-router-dom";
 import './index.css'
 
@@ -44,30 +43,21 @@ const Index: React.FC = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
 
-    const items: CollapseProps['items'] = [
-        {
-            key: '1',
-            label: 'This is panel header 1',
-            children: <div>
-                <ul>
-                    {currentRecords.map((record, index) => (
-                        <li key={index}>
-                            {record.time} - {formatTime(record.duration)}
-                            <button onClick={() => deleteHistory(index)}>删除</button>
-                        </li>
-                    ))}
-                </ul>
-                <div className="pagination">
-                    <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
-                    <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
-                </div>
-            </div>,
-        },
-    ];
-
     return (
         <div className="history-page">
-            <Collapse items={items} defaultActiveKey={['1']} />;
+            <h2>历史记录</h2>
+            <ul>
+                {currentRecords.map((record, index) => (
+                    <li key={index}>
+                        {record.time} - {formatTime(record.duration)}
+                        <button onClick={() => deleteHistory(index)}>删除</button>
+                    </li>
+                ))}
+            </ul>
+            <div className="pagination">
+                <button onClick={prevPage} disabled={currentPage === 1}>上一页</button>
+                <button onClick={nextPage} disabled={currentPage === totalPages}>下一页</button>
+            </div>
             <Link to="/" className="back-link">返回计时器</Link>
         </div>
     );

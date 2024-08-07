@@ -31,3 +31,16 @@
 .back-link:hover {
     text-decoration: underline;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+

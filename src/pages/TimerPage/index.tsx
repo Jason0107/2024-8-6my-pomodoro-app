@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import './index.css'
 
 
 
@@ -120,6 +121,7 @@ const TimerPage: React.FC = () => {
             </div>
             <div className="set-goal">
                 <input
+                    className={'set-input'}
                     type="number"
                     value={goalInput}
                     onChange={handleGoalInputChange}
@@ -129,6 +131,7 @@ const TimerPage: React.FC = () => {
             </div>
             <div className="set-duration">
                 <input
+                    className={'set-input'}
                     type="number"
                     value={durationInput}
                     onChange={handleDurationInputChange}
