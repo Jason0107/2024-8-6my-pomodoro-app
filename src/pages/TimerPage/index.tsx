@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HistoryRecord, TimerState } from '../../types/history.ts';
-import { BASE_PATH } from '../../config.js';
+import { BASE_PATH } from '../../config.ts';
 import './index.css';
 
 interface TimerPageProps {
