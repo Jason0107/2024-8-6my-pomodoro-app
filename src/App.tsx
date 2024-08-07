@@ -74,10 +74,10 @@ const App: React.FC = () => {
         setTimerState(TimerState.RUNNING);
     };
 
-    // const handleTestStart = () => {
-    //     setSeconds(2);
-    //     setTimerState(TimerState.RUNNING);
-    // };
+    const handleTestStart = () => {
+        setSeconds(2);
+        setTimerState(TimerState.RUNNING);
+    };
 
     const handleGoalInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setGoalInput(event.target.value);
@@ -104,7 +104,7 @@ const App: React.FC = () => {
                 <button onClick={handleStart}>Start</button>
                 <button onClick={() => setTimerState(TimerState.PAUSED)}>Pause</button>
                 <button onClick={() => { setSeconds(1500); setTimerState(TimerState.ENDED); }}>Reset</button>
-                {/*<button onClick={handleTestStart}>Test</button>*/}
+                <button onClick={handleTestStart}>Test</button>
             </div>
             <div className="progress">
                 <h2>Today's Progress</h2>

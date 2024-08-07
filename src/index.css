@@ -55,51 +55,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.app {
-  display: flex; /* Add this line */
-  flex-direction: column; /* Add this line */
-  align-items: center; /* Add this line */
-  justify-content: center; /* Add this line */
-  text-align: center; /* Add this line */
-}
-
-.progress {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px 0;
-}
-
-.progress-container {
-  width: 100%;
-  border: 2px solid #646cff; /* Add this line for border */
-  border-radius: 10px; /* Adjust border radius */
-  padding: 2px; /* Optional: Add padding to create space between border and progress bar */
-}
-
-.progress-bar {
-  height: 20px;
-  background-color: #646cff;
-  border-radius: 8px; /* Adjust border radius to match progress container */
-  width: 0; /* Default width, will be set dynamically */
-}
-
-.set-goal {
-  display: flex;
-  align-items: center;
-}
-
-.set-goal input {
-  padding: 10px;
-  margin: 10px 10px 10px 0;
-  font-size: 1em;
-  width: 100px;
-}
-
-.set-goal button {
-  padding: 10px;
-  font-size: 1em;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
